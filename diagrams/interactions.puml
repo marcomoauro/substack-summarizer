@@ -1,0 +1,26 @@
+@startuml
+actor User
+participant Client
+participant Server
+participant Substack as "Substack"
+participant OpenAI as "OpenAI"
+
+autonumber
+
+User -> Client: Enter language and article URL
+activate Client
+Client -> Server: invokes <b>GET /summarize-article</b> API
+activate Server
+Server -> Substack: Scrape article content
+activate Substack
+Substack --> Server: Return article content
+deactivate Substack
+Server -> OpenAI: Request summary and translation of content
+activate OpenAI
+OpenAI --> Server: Return summarized and translated content
+deactivate OpenAI
+Server -> Client: Send summarized and translated content
+deactivate Server
+Client -> User: Display summary
+deactivate Client
+@enduml
