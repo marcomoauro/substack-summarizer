@@ -1,5 +1,8 @@
 import log from "../log.js";
 import axios from "axios";
+import { strict as assert } from 'assert';
+
+assert(process.env.OPEN_AI_API_KEY, 'Please define OPEN_AI_API_KEY env var');
 
 export const completionByAI = async ({system_message, user_message, system_message2}) => {
   log.info('completionByAI', {

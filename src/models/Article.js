@@ -29,7 +29,7 @@ export default class Article {
     const scripts = data.match(/<script>(.*?)<\/script>/gs);
     const script = scripts.find((script) => script.includes('body_html'))
     const first_part = script.split('("').slice(1)[0]
-    const cleaned_json = '\"'+ first_part.split('")')[0]+'\"'
+    const cleaned_json = '\"'+ first_part.split('")')[0] + '\"'
     const escaped_json = JSON.parse(cleaned_json)
     const body = JSON.parse(escaped_json)
     const body_html = body.post.body_html.slice(0, -3000)
