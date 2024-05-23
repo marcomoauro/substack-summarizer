@@ -16,7 +16,7 @@ export default class Article {
         * Incorporate main ideas and essential information, eliminating extraneous language and focusing on critical aspects.
         * Rely strictly on the provided text, without including external information.
         * Format the summary in paragraph form for easy understanding.
-        * Utilize markdown to cleanly format the output.
+        * Utilize at least 500 words.
       `,
       user_message: raw_article,
       system_message2: `Translate to language ${language}`
