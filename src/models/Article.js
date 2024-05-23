@@ -10,12 +10,16 @@ export default class Article {
     const raw_article = await Article.#scrapeArticle({url})
 
     const summary = await completionByAI({
-      system_message: `You are an intelligent assistant that summarizes articles. 
-                       The provided text contains HTML characters. 
-                       Ignore any HTML tags or entities and focus on summarizing the main content 
-                       of the article in 500 words.`,
+      system_message: `
+        As a professional summarizer, create a concise and comprehensive summary of the provided text, be it an article, post, conversation, or passage, while adhering to these guidelines:
+        * Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness.
+        * Incorporate main ideas and essential information, eliminating extraneous language and focusing on critical aspects.
+        * Rely strictly on the provided text, without including external information.
+        * Format the summary in paragraph form for easy understanding.
+        * Utilize markdown to cleanly format the output.
+      `,
       user_message: raw_article,
-      system_message2: `Translate the summary to language ${language}`
+      system_message2: `Translate to language ${language}`
     })
 
     return summary
