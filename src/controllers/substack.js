@@ -13,9 +13,11 @@ export const summarizeArticle = async ({url, language}) => {
     throw new APIError400('language is required')
   }
 
-  const summary = await Article.summarize({url, language})
+  const { summary, title, link } = await Article.summarize({url, language})
 
   return {
-    summary
+    summary,
+    title,
+    link
   }
 }

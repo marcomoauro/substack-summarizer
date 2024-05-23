@@ -7,7 +7,7 @@ export default class Article {
   static summarize = async ({url, language}) => {
     log.info('Model::Article::summarize', {url, language})
 
-    const raw_article = await Article.#scrapeArticle({url})
+    const {body_html, title, link} = await Article.#scrapeArticle({url})
 
     const summary = await completionByAI({
       system_message: `
@@ -18,11 +18,11 @@ export default class Article {
         * Format the summary in paragraph form for easy understanding.
         * Utilize at least 500 words.
       `,
-      user_message: raw_article,
+      user_message: body_html,
       system_message2: `Translate to language ${language}`
     })
 
-    return summary
+    return { summary, title, link}
   }
 
   static #scrapeArticle = async ({url}) => {
@@ -38,7 +38,9 @@ export default class Article {
     const body = JSON.parse(escaped_json)
     const body_html = body.post.body_html.slice(0, -3000)
 
-    return body_html;
+    const link = body.post.canonical_url + '?r=oshyp'
+
+    return { body_html, title: body.post.title, link }
   }
 
 }
