@@ -11,12 +11,12 @@ export default class Article {
 
     const summary = await completionByAI({
       system_message: `
-        As a professional summarizer, create a concise and comprehensive summary of the provided text, be it an article, post, conversation, or passage, while adhering to these guidelines:
+        As a professional summarizer, create a concise and comprehensive summary of the provided article, while adhering to these guidelines:
         * Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness.
         * Incorporate main ideas and essential information, eliminating extraneous language and focusing on critical aspects.
         * Rely strictly on the provided text, without including external information.
         * Format the summary in paragraph form for easy understanding.
-        * Utilize at least 500 words.
+        * Utilize at least 800 words.
       `,
       user_message: body_html,
       system_message2: `Translate to language ${language}`
@@ -36,7 +36,7 @@ export default class Article {
     const cleaned_json = '\"'+ first_part.split('")')[0] + '\"'
     const escaped_json = JSON.parse(cleaned_json)
     const body = JSON.parse(escaped_json)
-    const body_html = body.post.body_html.slice(0, -3000)
+    const body_html = body.post.body_html.slice(0, 15000)
 
     const link = body.post.canonical_url + '?r=oshyp'
 
