@@ -44,8 +44,7 @@ export default class Article {
       /<h3>(.*?)<\/h3>/gs,
       /<h4>(.*?)<\/h4>/gs,
       /<h5>(.*?)<\/h5>/gs,
-      /<h6>(.*?)<\/h6>/gs,
-      /<h7>(.*?)<\/h7>/gs
+      /<h6>(.*?)<\/h6>/gs
     ];
 
     const extracted_content = [];
