@@ -7,7 +7,7 @@ export default class Article {
   static summarize = async ({url, language}) => {
     log.info('Model::Article::summarize', {url, language})
 
-    const {body_html, title, link} = await Article.#scrapeArticle({url})
+    const {content, title, link} = await Article.#scrapeArticle({url})
 
     const summary = await completionByAI({
       system_message: `
@@ -18,7 +18,7 @@ export default class Article {
         * Format the summary in paragraph form for easy understanding.
         * Utilize at least 800 words.
       `,
-      user_message: body_html,
+      user_message: content,
       system_message2: `Translate to language ${language}`
     })
 
@@ -36,11 +36,32 @@ export default class Article {
     const cleaned_json = '\"'+ first_part.split('")')[0] + '\"'
     const escaped_json = JSON.parse(cleaned_json)
     const body = JSON.parse(escaped_json)
-    const body_html = body.post.body_html.slice(0, 15000)
+
+    const regexes = [
+      /<p>(.*?)<\/p>/gs,
+      /<h1>(.*?)<\/h1>/gs,
+      /<h2>(.*?)<\/h2>/gs,
+      /<h3>(.*?)<\/h3>/gs,
+      /<h4>(.*?)<\/h4>/gs,
+      /<h5>(.*?)<\/h5>/gs,
+      /<h6>(.*?)<\/h6>/gs,
+      /<h7>(.*?)<\/h7>/gs
+    ];
+
+    const extracted_content = [];
+
+    for (let regex of regexes) {
+      let match;
+      while ((match = regex.exec(body.post.body_html)) !== null) {
+        extracted_content.push(match[1]);
+      }
+    }
+
+    const content = extracted_content.join(' ');
 
     const link = body.post.canonical_url + '?r=oshyp'
 
-    return { body_html, title: body.post.title, link }
+    return { content, title: body.post.title, link }
   }
 
 }
