@@ -19,7 +19,16 @@ export default class Article {
         * Utilize at least 800 words.
       `,
       user_message: content,
-      system_message2: `Translate to language ${language}`
+      other_messages: [
+        {
+          role: "system",
+          content: `* Revise the page layout, make reading easier and more pleasant by using headings and dividing into paragraphs`
+        },
+        {
+          role: "system",
+          content: `Translate to language ${language}`
+        }
+      ],
     })
 
     return { summary, title, link}

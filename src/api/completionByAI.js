@@ -4,11 +4,11 @@ import { strict as assert } from 'assert';
 
 assert(process.env.OPEN_AI_API_KEY, 'Please define OPEN_AI_API_KEY env var');
 
-export const completionByAI = async ({system_message, user_message, system_message2}) => {
+export const completionByAI = async ({system_message, user_message, other_messages = []}) => {
   log.info('completionByAI', {
     system_message: system_message.slice(0, 10),
     user_message: user_message.slice(0, 10),
-    system_message2: system_message2?.slice(0, 10)
+    other_messages: other_messages.length
   })
 
   const messages = [
@@ -22,11 +22,8 @@ export const completionByAI = async ({system_message, user_message, system_messa
     }
   ]
 
-  if (system_message2) {
-    messages.push({
-      role: "system",
-      content: system_message2
-    })
+  if (other_messages.length > 0) {
+    messages.push(...other_messages)
   }
 
   const body = {
