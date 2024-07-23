@@ -27,7 +27,7 @@ export const completionByAI = async ({system_message, user_message, other_messag
   }
 
   const body = {
-    model: "gpt-3.5-turbo",
+    model: "gpt-4o-mini",
     messages
   };
 
